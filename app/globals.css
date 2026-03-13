@@ -1,26 +1,203 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #020617;
+  --foreground: #e5f1ff;
+  --accent: #22d3ee;
+  --primary: #38bdf8;
+  --primary-soft: rgba(56, 189, 248, 0.2);
+  --secondary: #a855f7;
+  --muted: #0b1220;
+  --border-subtle: rgba(148, 163, 184, 0.35);
+  --radius-lg: 1.5rem;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.35), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.4), transparent 55%),
+    radial-gradient(circle at top right, rgba(34, 211, 238, 0.25), transparent 55%),
+    #020617;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.glass-panel {
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at top left, rgba(94, 234, 212, 0.06), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.1), transparent 55%),
+    rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  box-shadow:
+    0 20px 60px rgba(15, 23, 42, 0.85),
+    0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+.glass-subtle {
+  border-radius: 1rem;
+  background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.94),
+      rgba(15, 23, 42, 0.88)
+    );
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.neon-ring {
+  position: relative;
+}
+
+.neon-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 160deg,
+    rgba(56, 189, 248, 0.2),
+    rgba(129, 140, 248, 0.5),
+    rgba(236, 72, 153, 0.2),
+    rgba(56, 189, 248, 0.3)
+  );
+  opacity: 0.85;
+  z-index: -1;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.4) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.4) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(circle at top, black 0%, transparent 75%);
+  opacity: 0.85;
+}
+
+.section-shell {
+  @apply relative mx-auto max-w-7xl px-6;
+}
+
+.section-stack {
+  @apply relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-8 sm:p-10 lg:p-12 backdrop-blur-lg;
+}
+
+/* Premium card — use for sections and feature cards */
+.card-premium {
+  @apply rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-lg transition-all duration-300 hover:scale-[1.02];
+}
+
+.card-premium:hover {
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.15), 0 0 80px rgba(168, 85, 247, 0.1);
+}
+
+.section-heading {
+  @apply mb-6 flex items-center gap-3 text-sm font-medium uppercase tracking-[0.25em] text-sky-300/75;
+}
+
+.section-title {
+  @apply text-balance text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-50;
+}
+
+.section-subtitle {
+  @apply mt-4 max-w-2xl text-sm sm:text-base text-slate-300/80 leading-relaxed;
+}
+
+.chip {
+  @apply rounded-full border border-cyan-400/40 bg-cyan-500/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-cyan-200;
+}
+
+.pill {
+  @apply inline-flex items-center gap-2 rounded-full border border-slate-500/50 bg-slate-900/70 px-3 py-1 text-xs font-medium text-slate-200;
+}
+
+.accent-gradient-text {
+  background: linear-gradient(120deg, #38bdf8, #a855f7, #22d3ee);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.glow-border {
+  box-shadow:
+    0 0 30px rgba(56, 189, 248, 0.35),
+    0 0 60px rgba(129, 140, 248, 0.4);
+}
+
+.scroll-snap-parent {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-margin-top: 5rem;
+}
+
+/* Section vertical rhythm */
+.section-spacing {
+  @apply py-20 sm:py-24 lg:py-32;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+  33% { transform: translate(4px, -6px) scale(1.1); opacity: 0.7; }
+  66% { transform: translate(-3px, 4px) scale(0.95); opacity: 0.5; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hero radial glow pulse */
+.hero-glow {
+  animation: hero-glow-pulse 8s ease-in-out infinite;
+}
+@keyframes hero-glow-pulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Tech / circuit grid — slow animated movement */
+.tech-grid {
+  animation: tech-grid-drift 20s linear infinite;
+}
+@keyframes tech-grid-drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(48px, 24px); }
+}
+
+/* Floating tech icons */
+.float-vertical {
+  animation: float-vertical 6s ease-in-out infinite;
+}
+@keyframes float-vertical {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Engineering Playground diagram animations */
+.noc-link {
+  stroke-dasharray: 0.4 0.3;
+  animation: noc-flow 3s linear infinite;
+}
+.noc-link-vert {
+  animation-delay: 0.5s;
+}
+@keyframes noc-flow {
+  to { stroke-dashoffset: -0.7; }
+}
+.matrix-cell {
+  will-change: opacity;
+}
+
+/* Noise overlay removed to avoid GPU cost from SVG filters */
