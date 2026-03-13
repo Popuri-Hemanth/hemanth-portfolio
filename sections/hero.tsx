@@ -6,7 +6,6 @@ import { Download, Github, Linkedin, Mail, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroBackground } from "@/components/HeroBackground";
 import { ResumeModal } from "@/components/ResumeModal";
-import { TechBackground } from "@/components/TechBackground";
 
 const container = {
   hidden: { opacity: 0 },
@@ -21,7 +20,7 @@ const item = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] },
+    transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] as const },
   },
 };
 const itemDelayed = {
@@ -29,7 +28,7 @@ const itemDelayed = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: 0.2, ease: [0.19, 1, 0.22, 1] },
+    transition: { duration: 0.6, delay: 0.2, ease: [0.19, 1, 0.22, 1] as const },
   },
 };
 
@@ -42,8 +41,16 @@ export function HeroSection() {
       id="hero"
       className="scroll-snap-section relative flex min-h-screen items-center overflow-hidden pb-28 pt-24"
     >
+      {/* Subtle tech grid overlay behind hero */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 opacity-[0.05]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+        }}
+      />
       <HeroBackground />
-      <TechBackground />
 
       <div className="section-shell relative z-10">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -108,7 +115,7 @@ export function HeroSection() {
                   aria-label="Email"
                 >
                   <Mail className="h-4 w-4" />
-                  <span>Mail</span>
+                  <span>Email</span>
                 </button>
               </div>
             </motion.div>

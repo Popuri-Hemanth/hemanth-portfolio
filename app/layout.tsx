@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { TechBackground } from "@/components/TechBackground";
 import { GlowCursor } from "@/components/GlowCursor";
 
 const geistSans = Geist({
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}
       >
-        <ParticlesBackground />
+        <TechBackground />
         <GlowCursor />
         {children}
       </body>

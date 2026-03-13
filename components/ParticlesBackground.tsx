@@ -1,10 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useCallback, useEffect, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { ISourceOptions } from "@tsparticles/engine";
 
-/* Full-page particle network; rendered only on client */
-
-const particlesOptions = {
+const particlesOptions: ISourceOptions = {
   background: { color: "transparent" },
   fullScreen: { enable: false },
   fpsLimit: 60,
@@ -24,24 +25,46 @@ const particlesOptions = {
       speed: 0.4,
       direction: "none",
       random: true,
-      outModes: "out",
+      outModes: { default: "out" },
     },
   },
   interactivity: {
-    detect_on: "canvas",
-    events: { onhover: { enable: false }, onclick: { enable: false } },
+    detectsOn: "canvas",
+    events: { onHover: { enable: false }, onClick: { enable: false } },
   },
 };
 
-const Particles = dynamic(
-  () => import("react-tsparticles").then((mod) => mod.default),
-  { ssr: false }
-);
-
 export function ParticlesBackground() {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => setInit(true));
+  }, []);
+
+  const particlesLoaded = useCallback(async () => {}, []);
+
   return (
-    <div className="fixed inset-0 -z-20 overflow-hidden opacity-70">
-      <Particles id="particles-bg" options={particlesOptions} className="h-full w-full" />
+    <div
+      className="overflow-hidden opacity-70"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -20,
+      }}
+    >
+      {init && (
+        <Particles
+          id="particles-bg"
+          particlesLoaded={particlesLoaded}
+          options={particlesOptions}
+          className="h-full w-full"
+        />
+      )}
     </div>
   );
 }

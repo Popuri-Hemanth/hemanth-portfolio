@@ -1,8 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useCallback, useEffect, useState } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import type { ISourceOptions } from "@tsparticles/engine";
 
-const particlesOptions = {
+const particlesOptions: ISourceOptions = {
   background: { color: "transparent" },
   fullScreen: { enable: false },
   fpsLimit: 45,
@@ -23,40 +26,57 @@ const particlesOptions = {
       speed: 0.25,
       direction: "none",
       random: true,
-      outModes: "out",
+      outModes: { default: "out" },
     },
   },
   interactivity: {
-    detect_on: "canvas",
-    events: { onhover: { enable: false }, onclick: { enable: false } },
+    detectsOn: "canvas",
+    events: { onHover: { enable: false }, onClick: { enable: false } },
   },
 };
 
-const Particles = dynamic(
-  () => import("react-tsparticles").then((mod) => mod.default),
-  { ssr: false }
-);
-
 export function TechBackground() {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => setInit(true));
+  }, []);
+
+  const particlesLoaded = useCallback(async () => {}, []);
+
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden">
-      {/* Faint animated circuit-style grid */}
+    <div
+      className="overflow-hidden"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -1,
+      }}
+    >
+      {/* Subtle tech grid overlay */}
       <div
-        className="tech-grid absolute inset-0 opacity-[0.05]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(148,163,184,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.6) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
         }}
       />
-      {/* Glowing particles + network lines */}
-      <div className="absolute inset-0 opacity-60">
-        <Particles
-          id="tech-particles"
-          options={particlesOptions}
-          className="h-full w-full"
-        />
-      </div>
+      {init && (
+        <div className="absolute inset-0 opacity-60">
+          <Particles
+            id="tech-particles"
+            particlesLoaded={particlesLoaded}
+            options={particlesOptions}
+            className="h-full w-full"
+          />
+        </div>
+      )}
     </div>
   );
 }

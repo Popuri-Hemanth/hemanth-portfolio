@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
 const options = [
-  { href: "/resume/software.pdf", label: "Software Engineering Resume" },
-  { href: "/resume/embedded.pdf", label: "Embedded Systems Resume" },
-  { href: "/resume/vlsi.pdf", label: "VLSI Design Resume" },
+  { href: "/resume/software.pdf", label: "Software Resume" },
+  { href: "/resume/embedded.pdf", label: "Embedded Resume" },
+  { href: "/resume/vlsi.pdf", label: "VLSI Resume" },
 ];
 
 type ResumeModalProps = {
